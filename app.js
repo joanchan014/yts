@@ -40,7 +40,7 @@ app.use(async ctx => {
 if (config.ENABLE_HTTP) {
   require('http')
     .createServer(app.callback())
-    .listen(config.HTTP_PORT)
+    .listen(process.env.PORT || config.HTTP_PORT)
     .on('listening', function () {
       console.log('http listening ' + this.address().port)
     })
