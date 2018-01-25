@@ -1,0 +1,18 @@
+{
+  "name": "yts",
+  "version": "1.0.0",
+  "description": "for youtube signature parse",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "product": "./node_modules/.bin/pm2 kill && NODE_ENV=production ./node_modules/.bin/pm2 start app.js -i 0"
+  },
+  "keywords": [],
+  "author": "yy",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.4.1",
+    "pm2": "^2.9.3"
+  }
+}
