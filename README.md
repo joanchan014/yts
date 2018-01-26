@@ -9,7 +9,7 @@ For PORT and HTTPS settings
 - index.js
 
 ## SSL
-To use HTTPS, you should overwrite the cert file, sign by yourself or aplly for it  
+To use HTTPS, you should overwrite the cert file, gen and sign by yourself or aplly for it  
 https://letsencrypt.org/ is a suggestion
 - server.cert: certificate of server
 - server.key: private key of server
