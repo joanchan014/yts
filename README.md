@@ -6,7 +6,7 @@ https://ytsig.herokuapp.com
 
 ## CONFIG
 For PORT and HTTPS settings  
-You can start HTTP and HTTPS both, but suggest that HTTPS only for prodction use
+We suggest that just set HTTPS enable for production use
 - index.js
 
 ## SSL
