@@ -1,10 +1,18 @@
-# Description
-For YouTube video url signature parse(.eg http://ytsig.herokuapp.com)
+# DESCRIPTION
+For YouTube video url signature parse
 
-## Config file
-- index.js: For PORT and https settings
-- server.cert[demo]: certificate of server
-- server.key[demo]: private key of server
+# DEMO
+https://ytsig.herokuapp.com
+
+## CONFIG
+For PORT and HTTPS settings
+- index.js
+
+## SSL
+To use HTTPS, you should overwrite the cert file, sign by yourself or aplly for it  
+https://letsencrypt.org/ is a suggestion
+- server.cert: certificate of server
+- server.key: private key of server
 
 ## Run step
 ``` bash
