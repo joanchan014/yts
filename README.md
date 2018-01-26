@@ -16,10 +16,10 @@ https://letsencrypt.org/ is a suggestion
 
 ## Run step
 ``` bash
-# install dependencies
+# install dependencies(just for the first time)
 npm i
 
-# start server
+# start or restart server
 npm run product
 ```
 
