@@ -5,11 +5,12 @@ For YouTube video url signature parse
 https://ytsig.herokuapp.com
 
 ## CONFIG
-For PORT and HTTPS settings
+For PORT and HTTPS settings  
+You can start HTTP and HTTPS both, but suggest that HTTPS only for prodction use
 - index.js
 
 ## SSL
-To use HTTPS, you should overwrite the cert file, gen and sign by yourself or aplly for it  
+To use HTTPS, you should overwrite the test file, gen and sign by yourself or aplly for it  
 https://letsencrypt.org/ is a suggestion
 - server.cert: certificate of server
 - server.key: private key of server
