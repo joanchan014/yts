@@ -12,11 +12,12 @@ import json
 import socket
 import SocketServer
 
-# sys.path.insert(0, os.path.dirname(os.path.realpath(
-#     os.path.abspath(__file__))) + '\\youtube-dl')
 
-sys.path.insert(0, os.path.dirname(os.path.realpath(
-    os.path.abspath(__file__))) + '/youtube-dl')
+cur_path = os.path.dirname(os.path.abspath(__file__))
+
+sys.path.insert(0, cur_path + '/youtube-dl')
+
+# print (sys.path)
 
 from youtube_dl.jsinterp import JSInterpreter
 from youtube_dl.compat import (
@@ -91,7 +92,7 @@ def _download_js_file(url):
 
 
 def get_cache_fn(func_id, dType='json'):
-    return './.cache/%s.%s' % (func_id, dType)
+    return '%s/.cache/%s.%s' % (cur_path, func_id, dType)
 
 
 def cache_store(func_id, data):
@@ -199,7 +200,15 @@ class MyHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         client_data = self.request.recv(1024)
         b = client_data.split(' ')
-        self.request.sendall(_decrypt_signature(b[0], b[1]))
+        try:
+            sr = _decrypt_signature(b[0], b[1])
+            if sr is None:
+                sr = 'Sig function err!'
+        except Exception, e:
+            # print type(e)
+            sr = format(str(e))
+        finally:
+            self.request.sendall(sr)
 
 if __name__ == '__main__':
     HOST, PORT = 'localhost', 3001
