@@ -1,26 +1,41 @@
 const app = new (require('koa'))()
   , net = require('net')
+  , send = require('koa-send')
+  , fs = require('fs')
   , config = require('./config');
 
+const util = require('util');
+const readdir = util.promisify(fs.readdir);
+
+
 const { execFile } = require('child_process');
-var child = execFile('python', ['external/s.py'], (error, stdout) => {
-  if (error) {
-    return child.kill()
-  }
-  console.log(stdout);
-})
+
 
 app.use(async ctx => {
   const { s, js } = ctx.request.query
 
-  if (!s || !js) {
-    ctx.body = `
-    <h1>Welcome</h1>
-    <a href='?s=6D6D5247217C2EB22945406888C21FD775B3209065.28F3AA41915594D913C730C6309B9A03C23BCDFDFD&js=/yts/jsbin/player-vflu-7yX5/en_US/base.js'>
-     This is a demo...</a>
-    `
+  if ('/api/keylist' == ctx.path) {
+	ctx.set('Content-Type', 'text/plain')
+	
+	let files;
+	try {
+		files = await readdir(config.KEY_PATH);
+	} catch (err) {
+		console.log(err);
+		ctx.body = 'read api err'
+		return;
+	}	
+    if(files && files.length) {
+		id = Math.floor(Math.random()*files.length);
+		await send(ctx, `${config.KEY_PATH}/${id}.key`);    
+	}
+	else {
+		ctx.body = 'read apilist err'
+	}
   }
-  else {
+  else if (s && js) {
+	  ctx.body = '11'
+	  return
     return new Promise(function (resolve, reject) {
       var client = net.createConnection({ port: 3001 }, () => {
         client.write(s + ' ' + js)
@@ -34,6 +49,13 @@ app.use(async ctx => {
         client.destroy();
       })
     })
+  }
+  else {
+	ctx.body = `
+    <h1>Welcome</h1>
+    <a href='?s=6D6D5247217C2EB22945406888C21FD775B3209065.28F3AA41915594D913C730C6309B9A03C23BCDFDFD&js=/yts/jsbin/player-vflu-7yX5/en_US/base.js'>
+     This is a demo...</a>
+    `
   }
 })
 

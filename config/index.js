@@ -4,5 +4,6 @@ exports = module.exports = {
 
     HTTP_PORT: 80,
     HTTPS_PORT: 443,
-    
+	
+	KEY_PATH:'./apikeys'
 }

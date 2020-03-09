@@ -23,4 +23,7 @@ npm i
 # start or restart server
 npm run product
 ```
-
+## Key list API
+- Do "Run step" once
+- Add the key file to api key path which config in index.js, keep file name 0-n.key,There are 3 demos
+ 
