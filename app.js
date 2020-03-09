@@ -34,8 +34,6 @@ app.use(async ctx => {
 	}
   }
   else if (s && js) {
-	  ctx.body = '11'
-	  return
     return new Promise(function (resolve, reject) {
       var client = net.createConnection({ port: 3001 }, () => {
         client.write(s + ' ' + js)
