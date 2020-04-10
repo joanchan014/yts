@@ -142,7 +142,7 @@ def _decrypt_signature(s, js_url):
     # js_url = js_url.replace('http:', 'https://www.youtube.com')
 
     id_m = re.match(
-        r'.*?-(?P<id>[a-zA-Z0-9_-]+)(?:/watch_as3|/html5player(?:-new)?|(?:/[a-z]{2}_[A-Z]{2})?/base)?\.(?P<ext>[a-z]+)$',
+        r'.*?[-.](?P<id>[a-zA-Z0-9_-]+)(?:/watch_as3|/html5player(?:-new)?|(?:/[a-z]{2,3}_[A-Z]{2})?/base)?\.(?P<ext>[a-z]+)$',
         js_url)
     if not id_m:
         # raise ExtractorError('Cannot identify player %r' % js_url)
