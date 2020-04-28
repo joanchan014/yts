@@ -142,14 +142,16 @@ def _decrypt_signature(s, js_url):
     # js_url = js_url.replace('http:', 'https://www.youtube.com')
 
     id_m = re.match(
-        r'.*?[-.](?P<id>[a-zA-Z0-9_-]+)(?:/watch_as3|/html5player(?:-new)?|(?:/[a-z]{2,3}_[A-Z]{2})?/base)?\.(?P<ext>[a-z]+)$',
+        # r'.*?[-.](?P<id>[a-zA-Z0-9_-]+)(?:/watch_as3|/html5player(?:-new)?|(?:/[a-z]{2,3}_[A-Z]{2})?/base)?\.(?P<ext>[a-z]+)$',
+        r'.*player/(?P<id>\w+)/.*?[-.](?P<idx>[a-zA-Z0-9_-]+)/(?P<l>\w+)/base.(?P<ext>[a-z]+)$',
         js_url)
     if not id_m:
         # raise ExtractorError('Cannot identify player %r' % js_url)
         return None
 
     player_type = id_m.group('ext')
-    player_id = id_m.group('id')
+    # player_id = id_m.group('id')
+    player_id = '%s-%s-%s' % (id_m.group('id'), id_m.group('idx'), id_m.group('l'))
     # Read from filesystem cache
     func_id = '%s_%s_%s' % (
         player_type, player_id, _signature_cache_id(s))
@@ -203,17 +205,25 @@ class MyTCPServer(SocketServer.TCPServer):
         self.socket.bind(self.server_address)
 
 class MyHandler(SocketServer.BaseRequestHandler):
+    G_ERR_CNT = 0
+    G_ERR = 'e'
 
     def handle(self):
         client_data = self.request.recv(1024)
         b = client_data.split(' ')
+
+        if MyHandler.G_ERR_CNT > 10:
+            return self.request.sendall(MyHandler.G_ERR)
+
         try:
             sr = _decrypt_signature(b[0], b[1])
             if sr is None:
-                sr = 'Sig function err!'
+                sr = 'Sig function err!'          
         except Exception, e:
             # print type(e)
             sr = format(str(e))
+            MyHandler.G_ERR_CNT = MyHandler.G_ERR_CNT+1
+            MyHandler.G_ERR = '%s' % (sr)
         finally:
             self.request.sendall(sr)
 
@@ -222,3 +232,4 @@ if __name__ == '__main__':
     server = MyTCPServer((HOST, PORT), MyHandler)
     print 'python server listening %s' %  PORT
     server.serve_forever()
+
